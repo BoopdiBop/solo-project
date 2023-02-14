@@ -34,5 +34,15 @@ module.exports = {
                 ]
             }
         ]
-    }
+    },
+
+    devServer: {
+        static: {
+            publicPath: '/build',
+            directory: path.resolve(__dirname, 'build')
+        },
+        proxy: {
+            "/" : "http://localhost:3000"
+        } 
+    },
 }
