@@ -1,0 +1,1 @@
+Users can submit pictures to represent coding concepts.
