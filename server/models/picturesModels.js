@@ -1,11 +1,17 @@
-const { Router, application } = require('express');
-const express = require('express');
-const router = express.Router();
+const path = require('path');
 // import mysql
 const mysql = require('mysql2');
 // so you can use the constants found in .env in server folder
-const dotenv = require('dotenv');
-dotenv.config();
+const dotenv = require('dotenv'); 
+// need to resolve the path so it knows where to locate .env
+// the difference between resolve and join
+// https://arpadt.com/articles/path-join-vs-path-resolve-nodejs
+// /Users/clairetischuk/solo-project/server/models/.env
+dotenv.config({ path: path.resolve(__dirname, './.env')});
+
+// console.log(path.resolve('./.env')); // /Users/clairetischuk/solo-project/.env
+// console.log(path.join('./.env')); // .env
+// console.log(path.join(__dirname, './.env')); // /Users/clairetischuk/solo-project/server/models/.env
 
 // pool is a collection of connections to the database, we can reuse these connections to make queries
 const pool = mysql.createPool({
@@ -14,6 +20,11 @@ const pool = mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
     database: process.env.MYSQL_DATABASE
+   /*
+   host: '127.0.0.1',
+   user: 'root',
+   database: 'studybase'
+   */
 }).promise();
 
 /*
@@ -30,6 +41,8 @@ pool.query(
 )
 */
 
+
+//console.log(pool);
 /*
 pool.query(
     'SELECT * FROM pictures WHERE caption=?',
@@ -41,6 +54,7 @@ pool.query(
 })
 .catch(err => console.log(err.sqlMessage));
 */
+
 
 // pass this onto picturesController to retrieve and process data
 module.exports = {

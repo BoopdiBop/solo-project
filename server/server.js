@@ -5,6 +5,10 @@ const PORT = 3000;
 // import pictures router
 const picturesRouter = require('./routes/picturesRoutes.js');
 
+// This middleware function will process each incoming request, no matter the route, and add a body property to each request object
+// the body property will be an object
+app.use(express.json());
+
 // connect pictures endpoint with the endpoints found in picturesRouter (so far just /)
 app.use('/pictures', picturesRouter);
 
@@ -13,10 +17,20 @@ app.get('/', (req, res) => {
     res.send('hello from express!');
 })
 
-// global express handler
+// global express handler - MUST CUSTOMIZE
 app.use((err, req, res, next) => {
-    console.log(err.stack);
-    res.status(500).send('Something broke!');
+    const defaultErr = {
+        message: 'error message from program',
+        status: 400,
+        log: 'error message from developer'
+    }
+
+    const error = Object.assign(defaultErr, err);
+
+    console.log('developer log: ', error.log);
+    console.log('program error: ', error.message);
+
+    res.status(error.status).send('Something broke!');
 })
 
 app.listen(3000, () => {
