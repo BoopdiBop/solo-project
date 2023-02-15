@@ -7,3 +7,10 @@ git checkout -b <branch name>
 
 then, merge the Backend branch to the main branch
 https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+-------
+
+I want to make a branch called database
+
+Making a mySQL database creatively termed 'studybase' 
+there exists a table 'pictures' with columns for caption and image url
