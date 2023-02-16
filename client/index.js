@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from './components/App.js';
+import App, { picturesLoader as rootLoader } from './components/App.js';
+
  
 // webpack will see these and bundle it together
 import styles from './scss/style.scss';
@@ -14,14 +15,17 @@ const router = createBrowserRouter([
         // '/' is the root layout, other routes will be nested inside
         path: "/",
         element: <App />,
-        errorElement: <Error />
+        errorElement: <Error />,
+        loader: rootLoader
     }
 ]);  
 
 // createRoot is the new kid on the block (used to be renderElement or something)
 ReactDOM.createRoot(document.getElementById('root')).render(
     // strict mode warns you if anything is outdated
+    <>
     <React.StrictMode>
         <RouterProvider router={router} />
     </React.StrictMode>
+    </>
 ) 

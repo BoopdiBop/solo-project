@@ -3,10 +3,7 @@ import React from "react";
 
 // https://dmitripavlutin.com/javascript-fetch-async-await/
 // https://reactrouter.com/en/main/start/tutorial
-export async function picturesLoader() {
-    const pics = await fetch('/pictures')
-                    .then(res => res.json())
-}
+
 export default function Pictures() {
 }
 

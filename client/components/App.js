@@ -1,9 +1,21 @@
 import React, {Component} from 'react';
 // must import Picture from Picture.js
 import Pictures from './Pictures.js'
+import { useLoaderData } from "react-router-dom";
+
+export async function picturesLoader() {
+    let pics = await fetch('/pictures')
+    pics = await pics.json();
+    console.log("pics", pics);
+    return pics;
+}
 
 // Time to practice Hooks
 export default function App() {
+    const pics = picturesLoader();
+    const load = useLoaderData();
+    console.log(load);
+    console.log(pics['pics']);
     return (
         <>
             <header> 
@@ -22,6 +34,10 @@ export default function App() {
                 </div>
                 <a href={'/error'}> Click here for error </a>
             </header>
+            <div>
+                <p> {pics['pics']} </p>
+                
+            </div>
         </>
     )
 } 
