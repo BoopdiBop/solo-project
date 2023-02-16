@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const PORT = 3000;
  
 // import pictures router
@@ -9,14 +10,28 @@ const picturesRouter = require('./routes/picturesRoutes.js');
 // the body property will be an object
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '../client/scss/style.scss')));
+
 // connect pictures endpoint with the endpoints found in picturesRouter (so far just /)
 app.use('/pictures', picturesRouter);
 
 // what you see when you visit http://localhost:3000
 app.get('/', (req, res) => {
-    res.send('hello from express!');
+    // res.send('hello from express!');
+    res.sendFile(path.join(__dirname, '../build/index.html'));
 })
 
+
+// If they access a page that is not available, I simply redirect them back to the main page
+// https://ui.dev/react-router-cannot-get-url-refresh
+app.use('*', (req, res) => {
+    // res.send('hello from express!');
+    console.log("express catcall");
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+    // res.redirect('/');
+})
+
+ 
 // global express handler - MUST CUSTOMIZE
 app.use((err, req, res, next) => {
     const defaultErr = {

@@ -1,15 +1,18 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry: './client/index.js', 
+    entry: path.join(__dirname, './client/index.js'), 
 
     output: {
-        path: path.join(__dirname, '/build'),
-        filename: 'bundle.js'
+        path: path.join(__dirname, './build'),
+        filename: 'bundle.js',
+        publicPath: '/',
     },
-
+ 
     plugins: [
+        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             template: './client/index.html'
         })
@@ -30,19 +33,20 @@ module.exports = {
             {
                 test: /\.s?css/,
                 use: [
-                    'style-loader', 'css-loader', 'sass-loader'
+                    process.env.NODE_ENV === 'development' ? "style-loader" : MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
                 ]
             }
         ]
     },
 
     devServer: {
+        historyApiFallback: true,
         static: {
-            publicPath: '/build',
-            directory: path.resolve(__dirname, 'build')
+            publicPath: './build',
+            directory: path.resolve(__dirname, './build')
         },
         proxy: {
             "/" : "http://localhost:3000"
-        } 
+        },
     },
 } 
